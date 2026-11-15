@@ -1,2 +1,9 @@
-# LOTWPS
-Framework that runs the weather system for the Chicago, IL (Illinois) and Northwest Indiana created by SPCBHEASguyyIN and SPCBHEASguyyNick on Discord.
+# LOTWPS and LOTIEM
+
+Software Frameworks that run the core weather processing system of Chicago, Illinois and Northwest Indiana.
+LOTWPS: Stands for the LOT Weather Processing System. Originally rooted in Chicago, Illinois, the system framework is currently transitioning its operational to the Chicago, Illinois. Future system upgrades plan to transition the hardcoded station identifier from IWX to LOT. This framework is responsible for providing quick and fast weather models to the forecaster and is the "sender" of the entire database. This framework contains applications such as, lotwps_tw.exe which is the text workstation that forecasters use to create, edit, and distribute forecast messages such as Warnings, Watches, Advisories, statements, non weather emergency messages, etc. This software is also responsible of hosting the Broadcast Message Handler client which controls all stations across Chicago, Illinois. Keep in mind that the station servers are located on each individual computer per station...lotwps_awips.exe which is the client that forecasters use which loads the geographical data of Chicago Illinois, and loads CONUS radar data and storm rotation information, and provides them with the ability to create storm-based polygons and send them to WarnGen, which creates the short term convective warnings.
+LOTIEM: Currently stands for "Chicago Illinois Iowa Environmental Mesonet." It is slated to be renamed to "Chicago Illinois Integrated Emergency Manager" in future software builds. This framework is the 'receiving' end of the database. This software receives messages sent from LOTWPS, and distributes them out to the BMH system, the WwA system, and local officials and the general public.
+
+Simulated NOAA Weather Radio Stations (Chicago Illinois Jurisdiction)
+WXK75 (Valparaiso, Indiana): A simulated NWR transmitter serving the Porter Township. It operates on a frequency of 162.400 MHz using a wireless audio feed.
+KBB58 (Gary, Indiana): A simulated NWR transmitter serving the Lake Township. It operates on a frequency of 162.425 MHz using a wireless audio feed.
