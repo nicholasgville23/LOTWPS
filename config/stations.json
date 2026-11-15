@@ -1,0 +1,29 @@
+{
+  "default_timezone": "America/Chicago",
+  "stations": [
+    {
+      "station_id": "WXJ75",
+      "location": "Valparaiso, Indiana",
+      "latitude": 41.4731,
+      "longitude": -87.0611,
+      "timezone": "America/Chicago",
+      "frequency_mhz": 162.4,
+      "coverage": ["Porter Township"],
+      "marine_enabled": false,
+      "enabled": true,
+      "extra_observation_stations": []
+    },
+    {
+      "station_id": "KBB58",
+      "location": "Gary, Indiana",
+      "latitude": 41.5934,
+      "longitude": -87.3464,
+      "timezone": "America/Chicago",
+      "frequency_mhz": 162.425,
+      "coverage": ["Lake Township"],
+      "marine_enabled": false,
+      "enabled": true,
+      "extra_observation_stations": []
+    }
+  ]
+}
