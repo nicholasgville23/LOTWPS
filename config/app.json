@@ -1,0 +1,14 @@
+{
+  "window_title": "KLOT LOTIEM TEXT WORKSTATION",
+  "nws_user_agent": "LOTWPS/0.1 (configure a contact address in local settings)",
+  "refresh_seconds": 300,
+  "broadcast_interval_seconds": 900,
+  "default_voice": "David",
+  "voicetext_exe": "",
+  "bmh_target_host": "192.168.10.144",
+  "bmh_target_port": 6000,
+  "bmh_enabled": false,
+  "default_bbb": "NOR",
+  "default_wfo": "LOT",
+  "language": "en-US"
+}
