@@ -49,6 +49,14 @@ class LocalQueue:
                     item.status = status
                     break
 
+    def requeue_audio_cycle(self) -> bool:
+        """Restart the WAV-backed product cycle after each full pass."""
+        with self._lock:
+            played = [item for item in self._items if item.audio_path and item.status == "PLAYED"]
+            for item in played:
+                item.status = "QUEUED"
+            return bool(played)
+
 
 class BroadcastLoop:
     """Manual local playout loop. No RF transmitter or EAS modem is used."""
@@ -77,6 +85,10 @@ class BroadcastLoop:
         while not self._stop.is_set():
             item = self.queue.next_item()
             if item is None:
+                # Loop WAV-backed products until the operator presses STOP LOOP.
+                if self.queue.requeue_audio_cycle():
+                    self._stop.wait(self.idle_seconds)
+                    continue
                 self._stop.wait(self.idle_seconds)
                 continue
             self.queue.set_status(item.item_id, "PLAYING")
