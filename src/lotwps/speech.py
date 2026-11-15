@@ -46,7 +46,7 @@ class SpeechEngine:
         finally:
             pythoncom.CoUninitialize()
 
-    def speak(self, text: str, voice_name: str = "David") -> str:
+    def speak(self, text: str, voice_name: str = "David", *, allow_manual_editor: bool = True) -> str:
         if not text.strip():
             raise SpeechError("There is no text to read")
         pythoncom, voice, tokens = self._sapi_tokens()
@@ -61,6 +61,11 @@ class SpeechEngine:
                     break
             if match is None:
                 if wanted == "paul":
+                    if not allow_manual_editor:
+                        raise SpeechError(
+                            "VoiceText Paul is available as a manual editor workflow only. "
+                            "Select an installed SAPI voice for the unattended local briefing loop."
+                        )
                     return self._open_voicetext_or_explain()
                 available = self.available_sapi_voices()
                 raise SpeechError(
