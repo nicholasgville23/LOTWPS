@@ -61,7 +61,7 @@ class BroadcastLoop:
                     snapshot.get("forecast_periods", []),
                     cycle_number,
                 )
-                status = self.speech.speak(script, voice)
+                status = self.speech.speak(script, voice, allow_manual_editor=False)
                 self.on_status(f"{station.station_id}: {status}")
             except Exception as exc:
                 self.on_status(f"{station.station_id}: local audio loop error: {exc}")
