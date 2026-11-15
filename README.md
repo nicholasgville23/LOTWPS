@@ -1,9 +1,35 @@
-# LOTWPS and LOTIEM
+# BMH-NOAA-Weather-Radio-LOTIEM-and-LOTWPS
 
-Software Frameworks that run the core weather processing system of Chicago, Illinois and Northwest Indiana.
-LOTWPS: Stands for the LOT Weather Processing System. Originally rooted in Chicago, Illinois, the system framework is currently transitioning its operational to the Chicago, Illinois. Future system upgrades plan to transition the hardcoded station identifier from IWX to LOT. This framework is responsible for providing quick and fast weather models to the forecaster and is the "sender" of the entire database. This framework contains applications such as, lotwps_tw.exe which is the text workstation that forecasters use to create, edit, and distribute forecast messages such as Warnings, Watches, Advisories, statements, non weather emergency messages, etc. This software is also responsible of hosting the Broadcast Message Handler client which controls all stations across Chicago, Illinois. Keep in mind that the station servers are located on each individual computer per station...lotwps_awips.exe which is the client that forecasters use which loads the geographical data of Chicago Illinois, and loads CONUS radar data and storm rotation information, and provides them with the ability to create storm-based polygons and send them to WarnGen, which creates the short term convective warnings.
-LOTIEM: Currently stands for "Chicago Illinois Iowa Environmental Mesonet." It is slated to be renamed to "Chicago Illinois Integrated Emergency Manager" in future software builds. This framework is the 'receiving' end of the database. This software receives messages sent from LOTWPS, and distributes them out to the BMH system, the WwA system, and local officials and the general public.
+Python 3.12 foundation for a modular Chicago / Northwest Indiana weather-product workstation and simulated NOAA Weather Radio network.
 
-## Simulated NOAA Weather Radio Stations (Chicago Illinois Jurisdiction)
-* **WXK75 (Valparaiso, Indiana):** A simulated NWR transmitter serving the Porter Township. It operates on a frequency of 162.400 MHz using a wireless audio feed.
-* **KBB58 (Gary, Indiana):** A simulated NWR transmitter serving the Lake Township. It operates on a frequency of 162.425 MHz using a wireless audio feed.
+## Workspaces
+- **LOTWPS Text Workstation** — compose, validate, revise and queue weather products.
+- **AWIPS-style workstation** — planned radar/map, polygon and WarnGen/WatchGen integration.
+- **LOTIEM** — planned receiving, routing and delivery-status service.
+- **BMH** — station registry, broadcast cycles, queue and station-controller interface.
+
+## Current foundation
+- Tkinter desktop shell with station selection and queue view.
+- JSON station configuration and station-local time using IANA time zones.
+- Product priority ordering: Emergency, Warning, Watch, Advisory, Statement.
+- Manual local queue start/stop and injected playback interface.
+- Windows SAPI adapter boundary with runtime voice discovery.
+- Unit tests for priority ordering, timezone display and queue lifecycle.
+
+## Safety and operational scope
+The project starts in **LOCAL TEST MODE**. It does not transmit RF, emit SAME/EAS headers, originate public warnings, or connect to public alert-distribution endpoints. Test audio and UI previews must be clearly identified as tests. Do not use a test profile to impersonate an official NWS transmitter or issue a real warning.
+
+Real-world warning dissemination requires authorized originators, approved equipment and procedures, verified source data, access controls, audit logs, and independent confirmation before transmission. Credentials, LAN addresses, and personal executable paths must not be committed.
+
+## Run on Windows / Python 3.12
+```powershell
+py -3.12 -m venv .venv
+.venv\\Scripts\\Activate.ps1
+python -m pip install -e ".[dev]"
+python -m lotwps.app
+pytest
+```
+
+Edit `config/stations.json` to configure development station profiles. Use IANA time-zone names such as `America/Chicago` and `America/Indiana/Indianapolis`.
+
+See [docs/ROADMAP.md](docs/ROADMAP.md) for planned implementation phases.
