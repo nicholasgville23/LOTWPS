@@ -5,5 +5,5 @@ LOTWPS: Stands for the LOT Weather Processing System. Originally rooted in Chica
 LOTIEM: Currently stands for "Chicago Illinois Iowa Environmental Mesonet." It is slated to be renamed to "Chicago Illinois Integrated Emergency Manager" in future software builds. This framework is the 'receiving' end of the database. This software receives messages sent from LOTWPS, and distributes them out to the BMH system, the WwA system, and local officials and the general public.
 
 ## Simulated NOAA Weather Radio Stations (Chicago Illinois Jurisdiction)
-* **WXK75 (Valparaiso, Indiana):** A simulated NWR transmitter serving the Porter Township. It operates on a frequency of 162.400 MHz using a wireless audio feed.
+* **WXJ75 (Valparaiso, Indiana):** A simulated NWR transmitter serving the Porter Township. It operates on a frequency of 162.400 MHz using a wireless audio feed.
 * **KBB58 (Gary, Indiana):** A simulated NWR transmitter serving the Lake Township. It operates on a frequency of 162.425 MHz using a wireless audio feed.
