@@ -1,0 +1,7 @@
+{
+  "application": {"name": "KLOT LOTIEM TEXT WORKSTATION", "office_id": "LOT", "timezone": "America/Chicago", "mode": "LOCAL_TEST"},
+  "stations": [
+    {"station_id": "WXK75", "display_name": "Valparaiso, Indiana", "timezone": "America/Indiana/Indianapolis", "frequency_mhz": 162.4, "coverage": ["Porter County, Indiana"], "enabled": true},
+    {"station_id": "KBB58", "display_name": "Gary, Indiana", "timezone": "America/Indiana/Indianapolis", "frequency_mhz": 162.425, "coverage": ["Lake County, Indiana"], "enabled": true}
+  ]
+}
