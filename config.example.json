@@ -1,0 +1,156 @@
+{
+  "app": {
+    "name": "BMH NOAA Weather Radio - LOTWPS / LOTIEM",
+    "office": "LOT",
+    "wmo_origin": "KLOT",
+    "wsfo_id": "CHI",
+    "timezone": "America/Chicago",
+    "language": "en",
+    "refresh_seconds": 300,
+    "manual_broadcast_loop": true
+  },
+  "nws": {
+    "base_url": "https://api.weather.gov",
+    "user_agent": "LOTWPS-Lab/0.1 (replace-with-contact-email@example.com)",
+    "timeout_seconds": 15,
+    "points": [
+      {
+        "name": "Chicago",
+        "latitude": 41.8781,
+        "longitude": -87.6298
+      },
+      {
+        "name": "Valparaiso",
+        "latitude": 41.4731,
+        "longitude": -87.0611
+      },
+      {
+        "name": "Gary",
+        "latitude": 41.5934,
+        "longitude": -87.3464
+      }
+    ]
+  },
+  "region": {
+    "name": "Northeast Illinois and Northwest Indiana",
+    "ugc_codes": [
+      "ILC031",
+      "INC089",
+      "INC127"
+    ],
+    "allow_routine_without_codes": true,
+    "coastal_stations_only_marine": true
+  },
+  "voices": {
+    "backend": "sapi",
+    "profiles": {
+      "paul": {
+        "display_name": "NeoSpeech Paul / VoiceText Paul",
+        "match": [
+          "paul"
+        ]
+      },
+      "david": {
+        "display_name": "David",
+        "match": [
+          "david"
+        ]
+      },
+      "zira": {
+        "display_name": "Zira",
+        "match": [
+          "zira"
+        ]
+      }
+    },
+    "voicetext_executable": "",
+    "voicetext_command": []
+  },
+  "broadcast": {
+    "lab_audio_only": true,
+    "require_test_label_for_manual_eas": true,
+    "header_repeats": 3,
+    "eom_repeats": 3,
+    "attention_tone_hz": 1050,
+    "attention_tone_seconds": 8,
+    "sample_rate": 48000,
+    "output_dir": "output",
+    "cycle_order": [
+      "STATION_ID",
+      "CURRENT_TIME",
+      "ACTIVE_ALERTS",
+      "FORECAST",
+      "OBSERVATIONS",
+      "HWO"
+    ]
+  },
+  "network": {
+    "enabled": false,
+    "transport": "simulation",
+    "bind_host": "127.0.0.1",
+    "bind_port": 6000,
+    "stations": [
+      {
+        "station_id": "WXK75",
+        "name": "Valparaiso",
+        "location": "Porter Township, Indiana",
+        "timezone": "America/Chicago",
+        "latitude": 41.4731,
+        "longitude": -87.0611,
+        "frequency_mhz": 162.4,
+        "host": "127.0.0.1",
+        "port": 6000,
+        "listening_area_ugc": [
+          "INC127"
+        ],
+        "same_fips": [
+          "018127"
+        ],
+        "coastal": false,
+        "simulated": true
+      },
+      {
+        "station_id": "KBB58",
+        "name": "Gary",
+        "location": "Lake Township, Indiana",
+        "timezone": "America/Chicago",
+        "latitude": 41.5934,
+        "longitude": -87.3464,
+        "frequency_mhz": 162.425,
+        "host": "127.0.0.1",
+        "port": 6001,
+        "listening_area_ugc": [
+          "INC089"
+        ],
+        "same_fips": [
+          "018089"
+        ],
+        "coastal": false,
+        "simulated": true
+      },
+      {
+        "station_id": "WXK89",
+        "name": "Valparaiso - secondary node",
+        "location": "Valparaiso, Indiana",
+        "timezone": "America/Chicago",
+        "latitude": 41.4731,
+        "longitude": -87.0611,
+        "frequency_mhz": null,
+        "host": "192.168.10.144",
+        "port": 6000,
+        "listening_area_ugc": [
+          "INC127"
+        ],
+        "same_fips": [
+          "018127"
+        ],
+        "coastal": false,
+        "simulated": true
+      }
+    ]
+  },
+  "climate": {
+    "normals": {},
+    "records": {}
+  }
+}
