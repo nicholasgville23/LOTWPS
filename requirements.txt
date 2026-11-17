@@ -1,0 +1,3 @@
+# Runtime requirements for the LOTWPS / LOTIEM simulator.
+# Tkinter and winsound ship with the python.org Windows build.
+pywin32>=306
