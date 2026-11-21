@@ -192,7 +192,7 @@ routes: BMH, WWA, LOCAL_OFFICIALS, PUBLIC, IEMBOT, EMAIL and WEBSITES. It writes
 per-route copy under `var/lotiem/routes/<ROUTE>/` and appends a replayable record
 to `var/lotiem/messages.jsonl`.
 
-Two transports are available. The TCP listener defaults to `0.0.0.0:28894` so other LAN clients can connect at `10.0.0.117:28894`; restrict the inbound Windows Firewall rule to your trusted local network.
+Two transports are available. The LAN profile defaults to TCP: the listener binds to `0.0.0.0:28894`, and clients connect to `10.0.0.117:28894`. Restrict the inbound Windows Firewall rule to your trusted local network.
 
 * **File bus** (default) - atomic JSON files in `var/bus`, shared by every app on
   the machine
