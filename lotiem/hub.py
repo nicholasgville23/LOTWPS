@@ -16,7 +16,7 @@ from datetime import datetime
 from pathlib import Path
 
 from lotwps import bus as bus_mod, paths, tz
-from config import Settings, settings as global_settings
+from lotwps.config import Settings, settings as global_settings
 
 ROOT = paths.VAR / "lotiem"
 ROUTES_DIR = ROOT / "routes"

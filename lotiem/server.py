@@ -1,4 +1,4 @@
-"""LOTIEM TCP daemon: newline-delimited JSON on 192.168.10.144:6000.
+"""LOTIEM TCP daemon: newline-delimited JSON on 10.0.0.117:28894.
 
 The file bus is the default transport, but the LOTIEM daemon also listens on
 TCP so other machines can post the same JSON messages. Every accepted message
@@ -16,7 +16,7 @@ import time
 from lotwps import paths, tz
 from lotwps.config import settings as global_settings
 
-from hub import Hub
+from .hub import Hub
 
 LOG = paths.LOGS / "lotiem-server.log"
 
@@ -72,8 +72,8 @@ class _Server(socketserver.ThreadingTCPServer):
 class LOTIEMServer:
     def __init__(self, host: str | None = None, port: int | None = None) -> None:
         settings = global_settings()
-        self.host = host or settings.get("lotiem.host", "127.0.0.1")
-        self.port = int(port or settings.get("lotiem.port", 6000))
+        self.host = host or settings.get("lotiem.host", "0.0.0.0")
+        self.port = int(port or settings.get("lotiem.port", 28894))
         self.hub = Hub(settings)
         self.accepted = 0
         self._server = _Server((self.host, self.port), _Handler)
@@ -111,7 +111,7 @@ class LOTIEMServer:
         time.sleep(seconds)
 
 
-def port_available(host: str = "127.0.0.1", port: int = 6000) -> bool:
+def port_available(host: str = "127.0.0.1", port: int = 28894) -> bool:
     try:
         with socket.create_connection((host, port), timeout=0.3):
             return False

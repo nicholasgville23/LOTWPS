@@ -17,7 +17,7 @@ feeds are downloaded, and nothing transmits over the air.
 | WXJ75 Station Controller | `python run_lotwps.py station` | Eight tabs controlling one transmitter |
 | KLOT LOTIEM Text Workstation | `python run_lotwps.py tw` | AWIPS headers, segments, WarnGen polygons, sent alerts |
 | CAVE-LOT D2D / AWIPS II | `python run_lotwps.py awips` | Radar map, alert polygons, WarnGen tools, Text 1-5 |
-| LOTIEM daemon | `python run_lotwps.py lotiem` | TCP/JSON distribution server on `127.0.0.1:6000` |
+| LOTIEM daemon | `python run_lotwps.py lotiem` | TCP/JSON distribution server on `127.0.0.1:28894` |
 | Launcher | `python run_lotwps.py` | Button panel for the whole suite |
 
 `python run_lotwps.py all` starts the radio, BMH, station controller, text
@@ -49,7 +49,7 @@ The first run creates `config/settings.json` and the runtime folders under
 * WXJ75, 162.400 MHz, Porter Township (active)
 * KBB58, 162.425 MHz, Lake Township / Gary (active)
 * WNG689, 162.450 MHz (inactive spare)
-* LOTIEM at `192.168.10.144:6000`, BMH network status `ONLINE (1)`
+* LOTIEM at `10.0.0.117:28894`, BMH network status `ONLINE (1)`
 * Central time with the correct CST/CDT label
 
 ## NOAA Weather Radio engine
@@ -82,23 +82,45 @@ Voice scripts are normalised for speech (callsigns spelled out, `mph` to "miles
 per hour", `162.400` to "162.4 megahertz", AM/PM separated) and rendered to one
 16 kHz mono 16-bit WAV per product under `var/audio/products`.
 
-### Voices
+### Voices: VoiceText Paul, David and Zira
 
-| Key | Engine | Notes |
+| Key | Engine | Behavior |
 | --- | --- | --- |
-| `paul` | VoiceText / SAPI fallback | Pre-rendered assets for static IDs; live SAPI David at `pitch="-3%"` elsewhere |
+| `paul` | VoiceText CLI / registered SAPI / WAV assets | Uses `voicetext_paul.exe` when configured; otherwise uses a registered SAPI Paul voice, pre-rendered Paul assets, or a clearly identified David SAPI proxy |
 | `david` | SAPI | Microsoft David Desktop |
 | `zira` | SAPI | Microsoft Zira Desktop |
 
-`voices.paul.render_mode` in `config/settings.json` selects the behavior:
+#### Use the standalone VoiceText Paul executable
 
-* `auto` - use Paul WAV assets for static IDs only (default)
-* `assets` - always use the pre-rendered Paul assets when present
-* `sapi` - always synthesize with the SAPI fallback
+Set `voices.paul.cli_exe` in `config/settings.json` to the executable path:
 
-`VTEditor_ENG.exe` has no batch interface, so genuine Paul renders are produced
-by exporting VTML and opening the editor. Static ID assets from the VoiceText
-package are used directly.
+```json
+{
+  "voices": {
+    "paul": {
+      "cli_exe": "C:\\Users\\nicho\\Downloads\\LOTIEM-Weather-Processing-System\\voicetext_paul.exe"
+    }
+  }
+}
+```
+
+The adapter follows the protocol used by `dondaplayer1/weather-radio-suite`: it writes UTF-8 text to `input1.txt` beside the executable, runs `voicetext_paul.exe` with no command-line arguments, then reads `output.wav`. The files are serialized with a lock because the utility uses fixed filenames. Output is normalized to 16 kHz, 16-bit mono WAV for the LOTWPS playback pipeline. Keep the executable's companion VoiceText library files in place beside it.
+
+The separate `VTEditor_ENG.exe` is a graphical VTML editor. It is used for manual VTML export/editing, not as the command-line renderer.
+
+#### Can pyttsx3 speak VoiceText Paul?
+
+`pyttsx3` selects from the Windows SAPI5 voices registered on that computer. It can speak with VoiceText Paul only when Paul appears in the SAPI5 voice collection. A standalone `.exe` is not automatically a SAPI voice and cannot be passed to `engine.setProperty("voice", ...)`; use the `cli_exe` adapter above when Paul is available only as a standalone executable.
+
+Install and inspect SAPI voices:
+
+```bat
+py -3.12 -m pip install pyttsx3
+py -3.12 tools\\pyttsx3_voice_test.py --list
+py -3.12 tools\\pyttsx3_voice_test.py --voice Paul
+```
+
+The helper lists both the voice name and SAPI ID. When Paul is registered, it chooses the matching `voice.id`, calls `say()`, and plays it with `runAndWait()`. If Paul does not appear in the list, use the VoiceText CLI setting or one of the installed Microsoft voices.
 
 ### EAS / SAME
 
@@ -170,7 +192,7 @@ routes: BMH, WWA, LOCAL_OFFICIALS, PUBLIC, IEMBOT, EMAIL and WEBSITES. It writes
 per-route copy under `var/lotiem/routes/<ROUTE>/` and appends a replayable record
 to `var/lotiem/messages.jsonl`.
 
-Two transports are available:
+Two transports are available. The TCP listener defaults to `0.0.0.0:28894` so other LAN clients can connect at `10.0.0.117:28894`; restrict the inbound Windows Firewall rule to your trusted local network.
 
 * **File bus** (default) - atomic JSON files in `var/bus`, shared by every app on
   the machine
@@ -187,7 +209,7 @@ edit by hand. Useful keys:
 
 | Key | Meaning |
 | --- | --- |
-| `text_workstation.host` / `.port` | `192.168.10.144` / `6000` |
+| `text_workstation.host` / `.port` | `10.0.0.117` / `6000` |
 | `lotiem.transport` | `file` or `tcp` |
 | `lotiem.routes.*` | enable or disable each distribution route |
 | `broadcast.modes` | cycle token lists by mode |
@@ -233,7 +255,7 @@ need a desktop session.
   back to David for live text.
 * **SAPI errors** - install `pywin32` for the same Python interpreter that runs
   the apps. Run `python run_lotwps.py` and use **VOICE REPORT**.
-* **LOTIEM port busy** - port 6000 may already be in use; change
+* **LOTIEM port busy** - port 28894 may already be in use; change
   `lotiem.port` or keep the default file transport.
 * **Stale alerts** - remove `var/state/alerts.json` or cancel alerts from the
   controller.
