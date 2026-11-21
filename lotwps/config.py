@@ -44,9 +44,10 @@ DEFAULTS: dict[str, Any] = {
         "long_name": "Chicago Illinois Iowa Environmental Mesonet",
         "future_name": "Chicago Illinois Integrated Emergency Manager",
         "station_id": "KLOT",
-        "host": "0.0.0.0",
+        "host": "10.0.0.117",
+        "bind_host": "0.0.0.0",
         "port": 28894,
-        "transport": "file",  # "file" bus (default) or "tcp"
+        "transport": "tcp",  # "file" bus (default) or "tcp"
         "routes": {
             "BMH": True,
             "WWA": True,
