@@ -20,7 +20,8 @@ import threading
 from pathlib import Path
 
 from . import audio, paths
-from config import Settings, settings as global_settings
+from .config import Settings, settings as global_settings
+from .voicetext import VoiceTextPaulCLI
 
 try:
     import pythoncom
@@ -211,6 +212,8 @@ class PaulVoice(Voice):
         self.settings = app_settings
         self.label = cfg.get("label", "VoiceText Paul")
         self.exe = Path(cfg.get("exe", ""))
+        self.cli_exe = Path(cfg.get("cli_exe", ""))
+        self.cli = VoiceTextPaulCLI(self.cli_exe)
         self.assets_dir = Path(cfg.get("assets_dir", ""))
         self.rate = int(cfg.get("rate", -1))
         self.pitch = str(cfg.get("pitch", "-3%"))
@@ -240,25 +243,35 @@ class PaulVoice(Voice):
 
     # -- rendering -------------------------------------------------------
     def render(self, text: str, dest: Path) -> Path:
-        """Proxy render; Paul assets are played directly by the TX engine."""
+        """Render with the standalone Paul CLI, registered SAPI Paul, or a David proxy."""
+        if self.cli.available:
+            return self.cli.render(clean_text(text), dest)
+
+        paul_name = resolve_voice_name("VoiceText Paul") or resolve_voice_name("Paul")
+        if paul_name:
+            return sapi_render(text, dest, paul_name, self.rate, 100)
+
         name = resolve_voice_name(self.fallback_name) or resolve_voice_name("Microsoft David")
         return sapi_render(text, dest, name, self.rate, 100, pitch=self.pitch)
 
     @property
     def available(self) -> bool:
-        return SAPI_AVAILABLE and (
-            resolve_voice_name(self.fallback_name) is not None
-            or resolve_voice_name("Microsoft David") is not None
-        )
+        paul_name = resolve_voice_name("VoiceText Paul") or resolve_voice_name("Paul")
+        fallback = resolve_voice_name(self.fallback_name) or resolve_voice_name("Microsoft David")
+        return self.cli.available or (SAPI_AVAILABLE and bool(paul_name or fallback))
 
     def describe(self) -> str:
         bits = ["VoiceText Paul"]
+        if self.cli.available:
+            bits.append("CLI renderer")
         if self.has_assets():
-            bits.append("assets")
+            bits.append("pre-rendered WAV assets")
+        if resolve_voice_name("VoiceText Paul") or resolve_voice_name("Paul"):
+            bits.append("registered SAPI voice")
+        elif self.available:
+            bits.append("David SAPI fallback")
         if self.editor_available:
-            bits.append("editor")
-        if self.available:
-            bits.append("SAPI proxy")
+            bits.append("VTML editor")
         return " + ".join(bits)
 
     # -- VTML hand-off ---------------------------------------------------

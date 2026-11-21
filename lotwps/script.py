@@ -153,7 +153,7 @@ class Script:
         self.parts.append(Part("pause", ms))
         return self
 
-    def tone(self, seconds: float = 8.0) -> "Script":
+    def tone(self, seconds: float = 10.0) -> "Script":
         self.parts.append(Part("tone", seconds))
         return self
 
@@ -269,7 +269,7 @@ def alert_script(
     alert,
     station: dict,
     voice: str = "paul",
-    tone_seconds: float = 8.0,
+    tone_seconds: float = 10.0,
     header_repeats: int = 3,
     eom_repeats: int = 3,
 ) -> Script:
@@ -317,7 +317,7 @@ def test_script(
     station: dict,
     event: str = "Required Weekly Test",
     voice: str = "paul",
-    tone_seconds: float = 8.0,
+    tone_seconds: float = 10.0,
     ugc: list[str] | None = None,
 ) -> Script:
     """Required Weekly/Monthly Test with the full SAME + tone sequence."""

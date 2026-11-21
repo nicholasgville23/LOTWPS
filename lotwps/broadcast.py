@@ -415,7 +415,7 @@ class BroadcastEngine:
             audio.player().stop()
         else:
             self.enqueue(item, front=True)
-        self.log(f"SAME ALERT sent: {event} {alert.same_header}")
+        self.log(f"SAME alert queued for local playback: {event} {alert.same_header}")
         self._emit("alert", {"alert": alert.to_dict()})
         return alert
 
@@ -424,7 +424,7 @@ class BroadcastEngine:
             alert,
             self.station,
             voice=self.voice,
-            tone_seconds=float(self.settings.get("audio.tone_seconds", 8.0)),
+            tone_seconds=float(self.settings.get("audio.tone_seconds", 10.0)),
         )
         self._ensure_model()
         return QueueItem(
@@ -448,7 +448,7 @@ class BroadcastEngine:
         for _ in range(3):
             script.same_header(alert.same_header)
             script.pause(900)
-        script.tone(float(self.settings.get("audio.tone_seconds", 8.0)))
+        script.tone(float(self.settings.get("audio.tone_seconds", 10.0)))
         item = QueueItem(
             item_id=f"RETONE-{next(self._counter)}",
             title="SAME Retone",
@@ -460,10 +460,10 @@ class BroadcastEngine:
         self.enqueue(item, front=True)
         self._skip.set()
         audio.player().stop()
-        self.log(f"SAME retone for {alert.alert_id}")
+        self.log(f"SAME retone queued for local playback for {alert.alert_id}")
 
     def tone_only(self, seconds: float | None = None) -> None:
-        seconds = seconds or float(self.settings.get("audio.tone_seconds", 8.0))
+        seconds = seconds or float(self.settings.get("audio.tone_seconds", 10.0))
         script = self._new_script("1050 Hz Tone", "TONE", 95)
         script.tone(seconds)
         self.enqueue(
@@ -474,13 +474,13 @@ class BroadcastEngine:
         )
         self._skip.set()
         audio.player().stop()
-        self.log("1050 Hz tone transmitted")
+        self.log("1050 Hz tone queued for local playback")
 
     def silent_interrupt(self) -> None:
         self.clear_queue()
         self._loop_item = None
         audio.player().stop()
-        self.log("SILENT INTERRUPT - queue cleared, transmitter muted")
+        self.log("SILENT INTERRUPT - queue cleared, local playback muted")
         self._emit("status", self.snapshot())
 
     def send_test(self, kind: str = "Required Weekly Test") -> None:
@@ -488,7 +488,7 @@ class BroadcastEngine:
             self.station,
             event=kind,
             voice=self.voice,
-            tone_seconds=float(self.settings.get("audio.tone_seconds", 8.0)),
+            tone_seconds=float(self.settings.get("audio.tone_seconds", 10.0)),
         )
         item = QueueItem(
             item_id=f"TEST-{next(self._counter)}",
@@ -510,7 +510,7 @@ class BroadcastEngine:
             purge_min=15,
             callsign=self._station_callsign(),
         )
-        self.log(f"test transmitted: {kind}")
+        self.log(f"test queued for local playback: {kind}")
 
     def transmit(self, hazard: str | None, ticker: str) -> None:
         """BMH network TRANSMIT: refresh the scroll and send a hazard if selected."""
