@@ -74,7 +74,7 @@ DEFAULTS: dict[str, Any] = {
     },
     "audio": {
         "sample_rate": 16000,
-        "tone_seconds": 8.0,
+        "tone_seconds": 10.0,
         "tone_short_seconds": 3.0,
         "same_tone_hz": 1050,
         "same_mark_hz": 2083.3,
