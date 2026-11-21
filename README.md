@@ -17,7 +17,7 @@ feeds are downloaded, and nothing transmits over the air.
 | WXJ75 Station Controller | `python run_lotwps.py station` | Eight tabs controlling one transmitter |
 | KLOT LOTIEM Text Workstation | `python run_lotwps.py tw` | AWIPS headers, segments, WarnGen polygons, sent alerts |
 | CAVE-LOT D2D / AWIPS II | `python run_lotwps.py awips` | Radar map, alert polygons, WarnGen tools, Text 1-5 |
-| LOTIEM daemon | `python run_lotwps.py lotiem` | TCP/JSON distribution server on `127.0.0.1:28894` |
+| LOTIEM daemon | `python run_lotwps.py lotiem` | TCP/JSON distribution server bound to `0.0.0.0:28894` |
 | Launcher | `python run_lotwps.py` | Button panel for the whole suite |
 
 `python run_lotwps.py all` starts the radio, BMH, station controller, text
@@ -116,8 +116,8 @@ Install and inspect SAPI voices:
 
 ```bat
 py -3.12 -m pip install pyttsx3
-py -3.12 tools\\pyttsx3_voice_test.py --list
-py -3.12 tools\\pyttsx3_voice_test.py --voice Paul
+py -3.12 tools\pyttsx3_voice_test.py --list
+py -3.12 tools\pyttsx3_voice_test.py --voice Paul
 ```
 
 The helper lists both the voice name and SAPI ID. When Paul is registered, it chooses the matching `voice.id`, calls `say()`, and plays it with `runAndWait()`. If Paul does not appear in the list, use the VoiceText CLI setting or one of the installed Microsoft voices.
