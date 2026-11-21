@@ -47,7 +47,7 @@ DEFAULTS: dict[str, Any] = {
         "host": "10.0.0.117",
         "bind_host": "0.0.0.0",
         "port": 28894,
-        "transport": "tcp",  # "file" bus (default) or "tcp"
+        "transport": "tcp",  # "tcp" for LAN; use "file" for a single-PC setup
         "routes": {
             "BMH": True,
             "WWA": True,
