@@ -243,18 +243,18 @@ py -3.12 -m unittest discover -s tests -v
 py -3.12 -m compileall -q lotwps apps lotiem run_lotwps.py
 ```
 
-The unit tests cover time zone/DST handling, UGC and SAME geography, SAME header
-and AFSK framing, AWIPS headers and polygons, alert priority/persistence,
-script normalisation, weather determinism and product shape, the file bus, and
-LOTIEM route fan-out. GUI smoke tests are intentionally separate because they
-need a desktop session.
+The initial offline tests cover SAME header structure, the three-header /
+three-EOM burst count, and the 1050 Hz alarm-tone sample count. GUI smoke tests
+need a Windows desktop session; VoiceText integration tests additionally need
+the local VoiceText executable and its companion library files.
 
 ## Troubleshooting
 
 * **No audio** - confirm the default playback device and that `winsound` works;
   the engine deliberately keeps one audio stream per process.
-* **No Paul voice** - check `voices.paul.exe` and `assets_dir`; `auto` mode falls
-  back to David for live text.
+* **No Paul voice** - check `voices.paul.cli_exe`, the executable's companion
+  library files, `voices.paul.exe` (the VTML editor) and `assets_dir`; the SAPI
+  fallback uses David only when the Paul CLI is unavailable.
 * **SAPI errors** - install `pywin32` for the same Python interpreter that runs
   the apps. Run `python run_lotwps.py` and use **VOICE REPORT**.
 * **LOTIEM port busy** - port 28894 may already be in use; change
