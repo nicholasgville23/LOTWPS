@@ -29,9 +29,9 @@
     "long_name": "Chicago Illinois Iowa Environmental Mesonet",
     "future_name": "Chicago Illinois Integrated Emergency Manager",
     "station_id": "KLOT",
-    "host": "0.0.0.0",
+    "host": "10.0.0.117",
     "port": 28894,
-    "transport": "file",
+    "transport": "tcp",
     "routes": {
       "BMH": true,
       "WWA": true,
@@ -45,7 +45,8 @@
       "IEMBOT": "iem@lot.noaa.gov",
       "EMAIL": "nws-chicago@noaa.gov",
       "WEBSITES": "https://weather.gov/lot"
-    }
+    },
+    "bind_host": "0.0.0.0"
   },
   "bmh": {
     "title": "BMH Network",
