@@ -192,6 +192,8 @@ routes: BMH, WWA, LOCAL_OFFICIALS, PUBLIC, IEMBOT, EMAIL and WEBSITES. It writes
 per-route copy under `var/lotiem/routes/<ROUTE>/` and appends a replayable record
 to `var/lotiem/messages.jsonl`.
 
+For a separate receiving computer, the standalone [LOTIEM repository](https://github.com/nicholasgville23/LOTIEM/tree/feature/receiver-service) provides the same newline-delimited JSON TCP protocol and route-queue behavior. Run either this bundled LOTIEM daemon or the standalone repository on the listener address, not both on the same port.
+
 Two transports are available. The LAN profile defaults to TCP: the listener binds to `0.0.0.0:28894`, and clients connect to `10.0.0.117:28894`. Restrict the inbound Windows Firewall rule to your trusted local network.
 
 * **File bus** (default) - atomic JSON files in `var/bus`, shared by every app on
