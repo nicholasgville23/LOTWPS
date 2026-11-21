@@ -72,7 +72,7 @@ class _Server(socketserver.ThreadingTCPServer):
 class LOTIEMServer:
     def __init__(self, host: str | None = None, port: int | None = None) -> None:
         settings = global_settings()
-        self.host = host or settings.get("lotiem.host", "0.0.0.0")
+        self.host = host or settings.get("lotiem.bind_host", "0.0.0.0")
         self.port = int(port or settings.get("lotiem.port", 28894))
         self.hub = Hub(settings)
         self.accepted = 0
