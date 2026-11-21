@@ -31,7 +31,7 @@ class Bus:
         self.settings = app_settings or global_settings()
         self.root = paths.BUS
         self.root.mkdir(parents=True, exist_ok=True)
-        self.transport = self.settings.get("lotiem.transport", "file")
+        self.transport = self.settings.get("lotiem.transport", "tcp")
         self.host = self.settings.get("lotiem.host", "10.0.0.117")
         self.port = int(self.settings.get("lotiem.port", 28894))
         self._lock = threading.RLock()
