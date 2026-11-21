@@ -45,7 +45,7 @@ DEFAULTS: dict[str, Any] = {
         "future_name": "Chicago Illinois Integrated Emergency Manager",
         "station_id": "KLOT",
         "host": "0.0.0.0",
-        "port": 6000,
+        "port": 28894,
         "transport": "file",  # "file" bus (default) or "tcp"
         "routes": {
             "BMH": True,
@@ -66,7 +66,7 @@ DEFAULTS: dict[str, Any] = {
         "title": "BMH Network",
         "location": "Valparaiso, Indiana",
         "ip": "10.0.0.117",
-        "port": 6000,
+        "port": 28894,
         "network_status": "ONLINE (1)",
         "default_hazard": "Tornado Warning",
         "ticker": "This is a test. 162.400 MHz WXJ75 Valparaiso IN",
@@ -211,7 +211,7 @@ DEFAULTS: dict[str, Any] = {
             "lat": 41.4731,
             "lon": -87.0611,
             "ip": "10.0.0.117",
-            "port": 6000,
+            "port": 28894,
             "active": True,
             "voice": "paul",
             "paul_assets": {
@@ -242,7 +242,7 @@ DEFAULTS: dict[str, Any] = {
             "lat": 41.5645,
             "lon": -87.3365,
             "ip": "10.0.0.117",
-            "port": 6000,
+            "port": 28894,
             "active": True,
             "voice": "paul",
             "paul_assets": {
@@ -269,7 +269,7 @@ DEFAULTS: dict[str, Any] = {
             "lat": 41.51,
             "lon": -87.02,
             "ip": "10.0.0.117",
-            "port": 6000,
+            "port": 28894,
             "active": False,
             "voice": "paul",
             "paul_assets": {},
