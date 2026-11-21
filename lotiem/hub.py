@@ -2,7 +2,7 @@
 
 LOTIEM sits between the LOTWPS text workstation / BMH network and the outside
 world. It accepts products on the JSON bus (file transport by default, TCP on
-192.168.10.144:6000 when the daemon is running), fans them out to the configured
+10.0.0.117:28894 when the daemon is running), fans them out to the configured
 routes (BMH, WWA, local officials, public, IEMBOT, email, websites) and keeps a
 replayable log under ``var/lotiem``.
 """
