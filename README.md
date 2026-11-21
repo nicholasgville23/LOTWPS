@@ -124,7 +124,7 @@ The helper lists both the voice name and SAPI ID. When Paul is registered, it ch
 
 ### EAS / SAME
 
-`lotwps/same.py` implements the over-the-air format:
+`lotwps/same.py` generates the SAME audio format for local simulation (not an RF transmission):
 
 ```
 ZCZC-ORG-EEE-PSSCCC-PSSCCC+TTTT-JJJHHMM-LLLLLLLL-
@@ -196,10 +196,8 @@ For a separate receiving computer, the standalone [LOTIEM repository](https://gi
 
 Two transports are available. The LAN profile defaults to TCP: the listener binds to `0.0.0.0:28894`, and clients connect to `10.0.0.117:28894`. Restrict the inbound Windows Firewall rule to your trusted local network.
 
-* **File bus** (default) - atomic JSON files in `var/bus`, shared by every app on
-  the machine
-* **TCP** - set `lotiem.transport` to `"tcp"` and run `python run_lotwps.py
-  lotiem` (or `python -m lotiem.server`) to accept remote clients
+* **TCP** (LAN default) - run one LOTIEM listener with `python run_lotwps.py lotiem` or use the standalone LOTIEM repository.
+* **File bus** (single-PC mode) - set `lotiem.transport` to `"file"`; atomic JSON files in `var/bus` are shared by local apps.
 
 Run the daemon from the launcher's **START LOTIEM DAEMON** button. The launcher
 status bar reports whether the daemon is running.
@@ -211,7 +209,7 @@ edit by hand. Useful keys:
 
 | Key | Meaning |
 | --- | --- |
-| `text_workstation.host` / `.port` | `10.0.0.117` / `6000` |
+| `text_workstation.host` / `.port` | `10.0.0.117` / `28894` |
 | `lotiem.transport` | `file` or `tcp` |
 | `lotiem.routes.*` | enable or disable each distribution route |
 | `broadcast.modes` | cycle token lists by mode |
@@ -258,6 +256,6 @@ the local VoiceText executable and its companion library files.
 * **SAPI errors** - install `pywin32` for the same Python interpreter that runs
   the apps. Run `python run_lotwps.py` and use **VOICE REPORT**.
 * **LOTIEM port busy** - port 28894 may already be in use; change
-  `lotiem.port` or keep the default file transport.
+  `lotiem.port`, or set `lotiem.transport` to `"file"` for a single-PC run.
 * **Stale alerts** - remove `var/state/alerts.json` or cancel alerts from the
   controller.
